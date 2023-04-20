@@ -1,7 +1,9 @@
 <template>
   <div id="app">
-    <el-container>
-      <el-aside width="200px"><common-aside /></el-aside>
+    <el-container class="el-container">
+      <el-aside :width="isCollapse ? 'auto' : '200px'"
+        ><common-aside
+      /></el-aside>
       <el-container>
         <el-header><common-header /></el-header>
         <el-main><router-view></router-view></el-main>
@@ -21,13 +23,19 @@ export default {
     CommonAside,
     CommonHeader,
   },
+  computed: {
+    isCollapse() {
+      return this.$store.state.isCollapse
+    },
+  },
 }
 </script>
 
 <style lang="scss">
 html,
 body,
-h3 {
+h3,
+p {
   margin: 0;
   padding: 0;
 }

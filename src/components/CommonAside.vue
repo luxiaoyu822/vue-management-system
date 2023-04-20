@@ -8,7 +8,7 @@
       active-text-color="#ffd04b"
       :collapse="isCollapse"
     >
-      <h3>后台管理系统</h3>
+      <h3>{{isCollapse?'后台':'后台管理系统'}}</h3>
       <el-menu-item
         v-for="data of noChildrenMenu"
         :key="data.name"
@@ -37,10 +37,11 @@
   </div>
 </template>
 <script>
+import { mapState } from 'vuex'
 export default {
+
   data() {
     return {
-      isCollapse: false,
       menuData: [
         {
           path: '/',
@@ -93,6 +94,7 @@ export default {
     haveChildrenMenu() {
       return this.menuData.filter(item => item.children)
     },
+    ...mapState(['isCollapse'])
   },
   methods: {
     clickMenu(data) {
@@ -110,6 +112,7 @@ export default {
 <style lang="scss" scoped>
 .el-menu {
   height: 100vh;
+  border-right: none;
   h3 {
     color: #fff;
     text-align: center;
