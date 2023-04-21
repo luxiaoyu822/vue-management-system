@@ -7,7 +7,16 @@
         class="el-icon el-icon-s-fold"
       ></i>
       <i v-else @click="handleMenu" class="el-icon el-icon-s-unfold"></i>
-      <span>首页</span>
+      <div class="text">
+        <el-breadcrumb separator="/">
+          <el-breadcrumb-item
+            :to="{ path: data.path }"
+            v-for="data of tablist"
+            :key="data.path"
+            >{{ data.label }}</el-breadcrumb-item
+          >
+        </el-breadcrumb>
+      </div>
     </div>
     <div class="right-content">
       <el-dropdown>
@@ -23,12 +32,17 @@
   </div>
 </template>
 <script>
+import { mapState } from 'vuex'
 export default {
   methods: {
     handleMenu() {
       this.$store.commit('toggleCollapse')
     },
   },
+  computed: {
+    ...mapState(['tablist']),
+  },
+  mounted() {},
 }
 </script>
 <style lang="scss" scoped>
@@ -43,11 +57,17 @@ export default {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    ::v-deep .el-breadcrumb__item {
+      .el-breadcrumb__inner {
+        font-weight: normal;
+        color: #666;
+      }
+    }
     .el-icon {
       color: white;
       font-size: 30px;
     }
-    span {
+    .text {
       font-size: 14px;
       color: white;
       margin-left: 10px;

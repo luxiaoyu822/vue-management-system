@@ -65,6 +65,13 @@ export default {
           url: 'UserManage/UserManage',
         },
         {
+          path:'/log',
+          name:'log',
+          label:'日志管理',
+          icon:'message-solid',
+          url:'Log/Log'
+        },
+        {
           label: '其他',
           icon: 'location',
           children: [
@@ -98,13 +105,13 @@ export default {
   },
   methods: {
     clickMenu(data) {
-      console.log(this.$route.path)
       if (
         this.$route.path !== data.path &&
         !(this.$route.path === '/home' && data.path === '/')
       ) {
         this.$router.push(data.path)
       }
+      this.$store.commit('selectMenu',data)
     },
   },
 }
