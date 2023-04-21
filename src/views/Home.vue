@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-row>
-      <el-col :span="8">
+      <el-col :span="8" style="padding-right: 10px">
         <el-card class="box-card">
           <div class="user">
             <img src="@/assets/images/user.jpg" alt="" />
@@ -33,7 +33,7 @@
           </el-table>
         </el-card>
       </el-col>
-      <el-col :span="16">
+      <el-col :span="16" style="padding-left: 10px">
         <div class="order-num">
           <el-card
             v-for="item of countData"
@@ -51,52 +51,28 @@
             </div>
           </el-card>
         </div>
+        <el-card style="height: 280px">
+          <div ref="echartsline" style="height: 280px"></div>
+        </el-card>
+        <div class="graph">
+          <el-card style="height: 260px">
+            <div ref="echartsBar" style="height: 260px"></div>
+          </el-card>
+          <el-card style="height: 260px">
+            <div ref="echartsPie" style="height: 240px"></div
+          ></el-card>
+        </div>
       </el-col>
     </el-row>
   </div>
 </template>
 <script>
+import { getData } from '@/api'
+import * as echarts from 'echarts'
 export default {
   data() {
     return {
-      tableData: [
-        {
-          name: 'oppo',
-          todayBuy: 99,
-          monthBuy: 341,
-          totalBuy: 991,
-        },
-        {
-          name: 'vivo',
-          todayBuy: 128,
-          monthBuy: 312,
-          totalBuy: 879,
-        },
-        {
-          name: '苹果',
-          todayBuy: 164,
-          monthBuy: 425,
-          totalBuy: 1026,
-        },
-        {
-          name: '小米',
-          todayBuy: 145,
-          monthBuy: 372,
-          totalBuy: 999,
-        },
-        {
-          name: '三星',
-          todayBuy: 171,
-          monthBuy: 541,
-          totalBuy: 1323,
-        },
-        {
-          name: '华为',
-          todayBuy: 112,
-          monthBuy: 422,
-          totalBuy: 1432,
-        },
-      ],
+      tableData: [],
       tableLabel: {
         name: '品牌',
         todayBuy: '今日销量',
@@ -143,25 +119,128 @@ export default {
       ],
     }
   },
+  mounted() {
+    getData().then(({ data }) => {
+      const { tableData } = data.data
+      this.tableData = tableData
+      const echartsLine = echarts.init(this.$refs.echartsline)
+      var echartsLineOption = {}
+      const { orderData, userData, videoData } = data.data
+
+      const xAxisLine = Object.keys(orderData.data[0])
+      const xAxisLineData = {
+        data: xAxisLine,
+      }
+      echartsLineOption.xAxis = xAxisLineData
+      echartsLineOption.yAxis = {}
+      echartsLineOption.legend = xAxisLineData
+      echartsLineOption.series = []
+      xAxisLine.forEach(item => {
+        echartsLineOption.series.push({
+          name: item,
+          data: orderData.data.map(data => data[item]),
+          type: 'line',
+        })
+      })
+
+      echartsLine.setOption(echartsLineOption)
+
+      const echartsBar = echarts.init(this.$refs.echartsBar)
+      const echartsBarOption = {
+        legend: {
+          textStyle: {
+            color: '#333',
+          },
+        },
+        grid: {
+          left: '20%',
+        },
+        tooltip: {
+          trigger: 'axis',
+        },
+        xAxis: {
+          type: 'category',
+          data: userData.map(item => item.date),
+          axisLine: {
+            lineStyle: {
+              color: '#17b3a3',
+            },
+          },
+          axisLabel: {
+            interval: 0,
+            color: '#333',
+          },
+        },
+        yAxis: [
+          {
+            type: 'value',
+            axisLine: {
+              lineStyle: {
+                color: '#17b3a3',
+              },
+            },
+          },
+        ],
+        color: ['#2ec7c9', '#b6a2de'],
+        series: [
+          {
+            name: '新增用户',
+            data: userData.map(item => item.new),
+            type: 'bar',
+          },
+          {
+            name: '活跃用户',
+            data: userData.map(item => item.active),
+            type: 'bar',
+          },
+        ],
+      }
+      echartsBar.setOption(echartsBarOption)
+
+      const echartsPie = echarts.init(this.$refs.echartsPie)
+      const echartsPieOption = {
+        tooltip: {
+          trigger: 'item',
+        },
+        color: [
+          '#0f78f4',
+          '#dd536b',
+          '#9462e5',
+          '#a6a6a6',
+          '#e1bb22',
+          '#39c362',
+          '#3ed1cf',
+        ],
+        series: [
+          {
+            data: videoData,
+            type: 'pie',
+          },
+        ],
+      }
+      echartsPie.setOption(echartsPieOption)
+    })
+  },
 }
 </script>
 <style lang="scss" scoped>
+@import '~@/assets/scss/variables.scss';
 .user {
   display: flex;
   align-items: center;
   justify-content: space-around;
-  padding-bottom: 20px;
+  padding-bottom: $padding * 2;
   border-bottom: 1px solid #e6e3e3;
-  margin-bottom: 20px;
+  margin-bottom: $margin * 2;
   img {
-    width: 150px;
-    height: 150px;
+    width: $width * 15;
+    height: $height * 15;
     border-radius: 50%;
   }
   .user-info {
     .name {
       font-size: 32px;
-      margin-bottom: 10px;
+      margin-bottom: $margin;
     }
     .access {
       color: #999999;
@@ -172,12 +251,12 @@ export default {
   p {
     display: flex;
     justify-content: center;
-    font-size: 14px;
-    line-height: 28px;
+    font-size: $fontSize;
+    line-height: $fontSize * 2;
     color: #999999;
     .info {
-      width: 70px;
-      margin-left: 60px;
+      width: $width * 7;
+      margin-left: $margin * 6;
     }
   }
 }
@@ -190,32 +269,41 @@ export default {
   .el-card {
     width: 32%;
     padding: 0;
-    margin-bottom: 20px;
+    margin-bottom: $margin * 2;
   }
   .icon {
-    width: 80px;
-    height: 80px;
+    width: $width * 8;
+    height: $height * 8;
     font-size: 30px;
     text-align: center;
-    line-height: 80px;
+    line-height: $height * 8;
     color: white;
   }
   .detail {
     display: flex;
-    margin-left: 15px;
+    margin-left: $margin * 1.5;
     flex-direction: column;
     justify-content: center;
     .price {
       font-size: 30px;
-      margin-bottom: 10px;
-      line-height: 30px;
-      height: 30px;
+      margin-bottom: $margin;
+      line-height: $height * 3;
+      height: $height * 3;
     }
     .desc {
       font-size: 14px;
       text-align: center;
       color: #999999;
     }
+  }
+}
+
+.graph {
+  margin-top: $margin * 2;
+  display: flex;
+  justify-content: space-between;
+  .el-card {
+    width: 48%;
   }
 }
 </style>
