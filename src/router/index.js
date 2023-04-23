@@ -12,26 +12,32 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/home',
+    name:'home',
     component: Home,
   },
   {
     path: '/user',
+    name:'user',
     component: User,
   },
   {
     path: '/mall',
+    name:'mall',
     component: Mall,
   },
   {
     path: '/log',
+    name:'log',
     component: Log,
   },
   {
     path: '/page1',
+    name:'page1',
     component: PageOne,
   },
   {
     path: '/page2',
+    name:'page2',
     component: PageTwo,
   },
   {

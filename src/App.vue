@@ -6,6 +6,7 @@
       /></el-aside>
       <el-container>
         <el-header><common-header /></el-header>
+        <common-tag></common-tag>
         <el-main><router-view></router-view></el-main>
       </el-container>
     </el-container>
@@ -15,6 +16,7 @@
 <script>
 import CommonAside from '@/components/CommonAside'
 import CommonHeader from '@/components/CommondHeader'
+import CommonTag from '@/components/CommonTag'
 export default {
   data() {
     return {}
@@ -22,6 +24,7 @@ export default {
   components: {
     CommonAside,
     CommonHeader,
+    CommonTag
   },
   computed: {
     isCollapse() {
