@@ -28,5 +28,9 @@ export default new Vuex.Store({
         }
       }
     },
+    closeTagMenu(state, item) {
+      // console.log(item)
+      state.tablist.splice(item, 1)
+    },
   },
 })
