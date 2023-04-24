@@ -76,8 +76,8 @@ export default {
               url: 'Home.vue'
             },
             {
-              path: '/video',
-              name: 'video',
+              path: '/mall',
+              name: 'mall',
               label: '商品管理',
               icon: 'video-play',
               url: 'Mall.vue'
@@ -85,7 +85,7 @@ export default {
           ],
           token: Mock.Random.guid(),
           role:'authenticated',
-          message: '获取成功'
+          message: '登录成功'
         }
       }
     } else {

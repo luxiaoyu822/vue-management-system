@@ -85,16 +85,18 @@ const router = new VueRouter({
   routes,
 })
 
-// router.beforeEach((to, from, next) => {
-//   if (to.meta.isAdmin) {
-//     if (Cookie.get('role') === 'administrator') {
-//       // next()
-//       console.log(Cookie.get('role'))
-//     } else {
-//       // next('/forbidden')
-//     }
-//   }
-// })
+router.beforeEach((to, from, next) => {
+  if (to.meta.isAdmin) {
+    const whichRole = Cookie.get('role')
+    if (whichRole && whichRole !== 'administrator') {
+      next('/forbidden')
+    } else {
+      next()
+    }
+  } else {
+    next()
+  }
+})
 
 router.beforeEach((to, from, next) => {
   // 判断token是否存在
