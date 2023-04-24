@@ -8,7 +8,7 @@
       active-text-color="#ffd04b"
       :collapse="isCollapse"
     >
-      <h3>{{isCollapse?'后台':'后台管理系统'}}</h3>
+      <h3>{{ isCollapse ? '后台' : '后台管理系统' }}</h3>
       <el-menu-item
         v-for="data of noChildrenMenu"
         :key="data.name"
@@ -39,59 +39,8 @@
 <script>
 import { mapState } from 'vuex'
 export default {
-
   data() {
     return {
-      menuData: [
-        {
-          path: '/',
-          name: 'home',
-          label: '首页',
-          icon: 's-home',
-          url: 'Home/Home',
-        },
-        {
-          path: '/mall',
-          name: 'mall',
-          label: '商品管理',
-          icon: 'video-play',
-          url: 'MallManage/MallManage',
-        },
-        {
-          path: '/user',
-          name: 'user',
-          label: '用户管理',
-          icon: 'user',
-          url: 'UserManage/UserManage',
-        },
-        {
-          path:'/log',
-          name:'log',
-          label:'日志管理',
-          icon:'message-solid',
-          url:'Log/Log'
-        },
-        {
-          label: '其他',
-          icon: 'location',
-          children: [
-            {
-              path: '/page1',
-              name: 'page1',
-              label: '页面1',
-              icon: 'setting',
-              url: 'Other/PageOne',
-            },
-            {
-              path: '/page2',
-              name: 'page2',
-              label: '页面2',
-              icon: 'setting',
-              url: 'Other/PageTwo',
-            },
-          ],
-        },
-      ],
     }
   },
   computed: {
@@ -101,7 +50,10 @@ export default {
     haveChildrenMenu() {
       return this.menuData.filter(item => item.children)
     },
-    ...mapState(['isCollapse'])
+    ...mapState(['isCollapse']),
+    menuData() {
+      return this.$store.state.menuData
+    },
   },
   methods: {
     clickMenu(data) {
@@ -111,7 +63,7 @@ export default {
       ) {
         this.$router.push(data.path)
       }
-      this.$store.commit('selectMenu',data)
+      this.$store.commit('selectMenu', data)
     },
   },
 }

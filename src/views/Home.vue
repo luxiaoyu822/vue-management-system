@@ -6,8 +6,8 @@
           <div class="user">
             <img src="@/assets/images/user.jpg" alt="" />
             <div class="user-info">
-              <p class="name">Admin</p>
-              <p class="access">超级管理员</p>
+              <p class="name">{{role}}</p>
+              <p class="access">{{role==='administrator'?'超级管理员':'普通用户'}}</p>
             </div>
           </div>
           <div class="login-info">
@@ -69,10 +69,12 @@
 <script>
 import { getData } from '@/api'
 import * as echarts from 'echarts'
+import Cookie from 'js-cookie'
 export default {
   data() {
     return {
       tableData: [],
+      role:'',
       tableLabel: {
         name: '品牌',
         todayBuy: '今日销量',
@@ -220,6 +222,8 @@ export default {
       }
       echartsPie.setOption(echartsPieOption)
     })
+
+    this.role=Cookie.get('role')
   },
 }
 </script>

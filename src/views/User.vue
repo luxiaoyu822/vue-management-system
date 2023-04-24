@@ -12,7 +12,6 @@
         :rules="rules"
         :inline="true"
         label-width="80px"
-        autocomplete="off"
       >
         <el-form-item label="姓名" prop="name">
           <el-input v-model="form.name" placeholder="请输入姓名"></el-input>
@@ -46,9 +45,20 @@
     </el-dialog>
     <div class="manage-header">
       <el-button type="primary" @click="handleAdd">+ 新增</el-button>
+      <el-form :inline="true" :model="userSearch">
+        <el-form-item>
+          <el-input placeholder="请输入名称" v-model="userSearch.name">
+          </el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" icon="el-icon-search" @click="onSearch"
+            >查询</el-button
+          >
+        </el-form-item>
+      </el-form>
     </div>
     <div class="manage-table">
-      <el-table :data="tableData" height="90%" style="width: 100%">
+      <el-table :data="tableData" stripe height="90%" style="width: 100%">
         <el-table-column prop="name" label="姓名"></el-table-column>
         <el-table-column prop="sex" label="性别">
           <template slot-scope="scope">
@@ -137,6 +147,9 @@ export default {
         page: 1,
         limit: 10,
       },
+      userSearch: {
+        name: '',
+      },
     }
   },
   mounted() {
@@ -168,10 +181,12 @@ export default {
       this.dialogTitle = '新增用户'
     },
     getList() {
-      getUser({ params: this.pageData }).then(({ data }) => {
-        this.tableData = data.list
-        this.total = data.count || 0
-      })
+      getUser({ params: { ...this.pageData, ...this.userSearch } }).then(
+        ({ data }) => {
+          this.tableData = data.list
+          this.total = data.count || 0
+        }
+      )
     },
     handleClose() {
       this.$refs.form.resetFields()
@@ -214,14 +229,25 @@ export default {
       this.pageData.page = val
       this.getList()
     },
+
+    onSearch() {
+      this.getList()
+    },
   },
 }
 </script>
 <style lang="scss" scoped>
 .manage {
   height: 90%;
+  .manage-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
   .manage-table {
+    background: white;
     height: 80%;
+    border: none;
     .manage-pagination {
       margin-top: 10px;
       display: flex;
