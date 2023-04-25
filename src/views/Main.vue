@@ -14,6 +14,7 @@
 import CommonAside from '@/components/CommonAside'
 import CommonHeader from '@/components/CommondHeader'
 import CommonTag from '@/components/CommonTag'
+import { mapState } from 'vuex'
 export default {
   data() {
     return {}
@@ -24,9 +25,7 @@ export default {
     CommonTag,
   },
   computed: {
-    isCollapse() {
-      return this.$store.state.isCollapse
-    },
+    ...mapState(['isCollapse'])
   },
 }
 </script>

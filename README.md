@@ -1,24 +1,9 @@
-# vue-management-system
+vue项目实战练习一
 
-## Project setup
-```
-npm install
-```
+vue+elementUI+echarts实现基础后台管理系统
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+使用Mock模拟后端接口数据
 
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+待完善：
+注册功能待完善，
+数据不多，菜单未全部实现

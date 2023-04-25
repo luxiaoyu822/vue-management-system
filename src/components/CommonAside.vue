@@ -40,8 +40,7 @@
 import { mapState } from 'vuex'
 export default {
   data() {
-    return {
-    }
+    return {}
   },
   computed: {
     noChildrenMenu() {
@@ -50,10 +49,7 @@ export default {
     haveChildrenMenu() {
       return this.menuData.filter(item => item.children)
     },
-    ...mapState(['isCollapse']),
-    menuData() {
-      return this.$store.state.menuData
-    },
+    ...mapState(['isCollapse', 'menuData']),
   },
   methods: {
     clickMenu(data) {
