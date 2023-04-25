@@ -88,7 +88,7 @@ export default {
 <style lang="scss" scoped>
 .login-container {
   box-sizing: border-box;
-  width: 30%;
+  width: 22%;
   margin: 180px auto;
   border: 1px solid #eaeaea;
   background-color: #eaeaea;
