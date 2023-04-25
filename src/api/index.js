@@ -21,3 +21,7 @@ export const editUser = data => {
 export const deleteUser = data => {
   return http.post('/user/delete', data)
 }
+
+export const getMenu = data => {
+  return http.post('/permission/getMenu', data)
+}

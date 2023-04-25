@@ -19,13 +19,13 @@
       </div>
     </div>
     <div class="right-content">
-      <el-dropdown>
+      <el-dropdown @command="handleUserDropdown">
         <span class="el-dropdown-link">
           <img class="user" src="@/assets/images/user.jpg" alt="" />
         </span>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item>个人中心</el-dropdown-item>
-          <el-dropdown-item>退出</el-dropdown-item>
+          <el-dropdown-item command="userInfo">个人中心</el-dropdown-item>
+          <el-dropdown-item command="logout">退出</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </div>
@@ -33,10 +33,18 @@
 </template>
 <script>
 import { mapState } from 'vuex'
+import Cookie from 'js-cookie'
 export default {
   methods: {
     handleMenu() {
       this.$store.commit('toggleCollapse')
+    },
+    handleUserDropdown(command) {
+      if (command === 'logout') {
+        Cookie.remove('token')
+        Cookie.remove('role')
+        this.$router.push('/login')
+      }
     },
   },
   computed: {
